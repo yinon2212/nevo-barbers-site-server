@@ -1,17 +1,16 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const userModel = require('./models/user.model');
-const userRouter = require('./routes/user.route');
-const bp = require('body-parser');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const userModel = require("./models/user.model");
+const userRouter = require("./routes/user.route");
+const dateRouter = require("./routes/date.route");
+const bp = require("body-parser");
+const cors = require("cors");
 const port = 5000;
 
-mongoose.connect('mongodb://localhost:27017/usersdb',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-);
+mongoose.connect("mongodb+srv://yinonmegi2212:22122001Ym!@cluster0.ddsjecv.mongodb.net/?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
@@ -22,11 +21,13 @@ db.once("open", function () {
 const app = express();
 
 app.use(cors());
-app.use(bp.json())
-app.use(bp.urlencoded({ extended: true }))
-app.use('/user', userRouter);
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
+app.use("/user", userRouter);
+app.use("/date", dateRouter);
+
+app.get("/", (req, res) => {});
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
-
