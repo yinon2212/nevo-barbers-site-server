@@ -5,7 +5,8 @@ const userRouter = require("./routes/user.route");
 const dateRouter = require("./routes/date.route");
 const bp = require("body-parser");
 const cors = require("cors");
-const port = 5000;
+const PORT = process.env.PORT || 5000;
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost:27017';
 
 mongoose.connect("mongodb+srv://yinonmegi2212:22122001Ym!@cluster0.ddsjecv.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
@@ -28,6 +29,6 @@ app.use("/date", dateRouter);
 
 app.get("/", (req, res) => {});
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
