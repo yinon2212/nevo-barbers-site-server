@@ -27,7 +27,9 @@ app.use(bp.urlencoded({ extended: true }));
 app.use("/user", userRouter);
 app.use("/date", dateRouter);
 
-app.get("/", (req, res) => {});
+app.get("/", (req, res) => {
+  res.send('Hi im here!')
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

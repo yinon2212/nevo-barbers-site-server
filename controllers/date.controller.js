@@ -13,10 +13,10 @@ const getCurrentDate = () => {
 /* This function adds new user to the current date in the database */
 const add_user = async (req, res) => {
   const fullDate = getCurrentDate();
-  const foundDate = await dateModel.findOne({ date: fullDate });
   const query = { date: fullDate };
   const update = { $push: { users: req.body } };
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
 
   try {
     await dateModel.findOneAndUpdate(query, update, options);
@@ -40,16 +40,21 @@ const get_users = async (req, res) => {
 const get_hours = async (req, res) => {
   const fullDate = getCurrentDate();
   const allHours = ["20:00", "20:45", "21:30", "22:15"];
+  const query = { date: fullDate };
+  const update = {};
+  const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
+  const tempDoc = await dateModel.findOneAndUpdate(query, update, options);
+
+  console.log('THe doc is =====> ', tempDoc);
+  
+  
   dateModel
     .aggregate([
       {
         $match: {
           date: fullDate,
         },
-      },
-      {
-        $unwind: "$users",
       },
       {
         $group: {
@@ -74,6 +79,7 @@ const get_hours = async (req, res) => {
     ])
     .exec()
     .then((result) => {
+      console.log('The result is ====> ', result);
       res.status(200).send(result);
     });
 };
