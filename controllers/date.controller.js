@@ -43,11 +43,8 @@ const get_hours = async (req, res) => {
   const query = { date: fullDate };
   const update = {};
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-
-  const tempDoc = await dateModel.findOneAndUpdate(query, update, options);
-
-  console.log('THe doc is =====> ', tempDoc);
   
+  await dateModel.findOneAndUpdate(query, update, options);
   
   dateModel
     .aggregate([
@@ -61,6 +58,9 @@ const get_hours = async (req, res) => {
           _id: null,
           hours: { $push: "$users.hour" },
         },
+      },
+      {
+        $unwind: '$hours',
       },
       {
         $project: {
