@@ -4,7 +4,7 @@ const DateController = require("../controllers/date.controller");
 
 router.post("/add_user", DateController.add_user);
 
-router.get("/get_hours", DateController.get_hours);
+router.post("/get_hours", DateController.get_hours);
 
 router.get("/get_users", DateController.get_users);
 

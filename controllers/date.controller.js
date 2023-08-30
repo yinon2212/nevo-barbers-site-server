@@ -13,8 +13,8 @@ const getCurrentDate = () => {
 /* This function adds new user to the current date in the database */
 const add_user = async (req, res) => {
   const fullDate = getCurrentDate();
-  const query = { date: fullDate };
-  const update = { $push: { users: req.body } };
+  const query = { date: req.body.fullDate };
+  const update = { $push: { users: req.body.user } };
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
 
@@ -40,7 +40,8 @@ const get_users = async (req, res) => {
 const get_hours = async (req, res) => {
   const fullDate = getCurrentDate();
   const allHours = ["20:00", "20:45", "21:30", "22:15"];
-  const query = { date: fullDate };
+  console.log('THe full date is ====> ', req.body.fullDate);
+  const query = { date: req.body.fullDate };
   const update = {};
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
   
@@ -50,7 +51,7 @@ const get_hours = async (req, res) => {
     .aggregate([
       {
         $match: {
-          date: fullDate,
+          date: req.body.fullDate,
         },
       },
       {
